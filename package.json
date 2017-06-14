@@ -11,7 +11,7 @@
   "categories": [
     "Other"
   ],
-  "icon":"icon.png",
+  "icon": "icon.png",
   "galleryBanner": {
     "color": "#5c2d91",
     "theme": "dark"
@@ -89,6 +89,7 @@
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
-    "lodash.groupby": "^4.6.0"
+    "lodash.groupby": "^4.6.0",
+    "path.join": "^1.0.0"
   }
 }

@@ -1,7 +1,9 @@
 import { ExtensionContext, TreeDataProvider, EventEmitter, TreeItem, Event, window, TreeItemCollapsibleState, Uri, commands, workspace, TextDocumentContentProvider, CancellationToken, ProviderResult } from 'vscode';
 import * as path from 'path';
 import * as AdmZip from 'adm-zip';
-import { IZipNode, treeFromPaths} from './ZipNode'
+import { IZipNode, treeFromPaths} from './ZipNode';
+
+const joinPath = require('path.join');
 
 export class ZipRoot implements IZipNode {
     private _zip: AdmZip;
@@ -66,8 +68,8 @@ export class ZipModel {
     public getContent(uri: Uri): Thenable<string> {
         return new Promise((resolve, reject) => {
             this._zipRoots.forEach(element => {
-                if (uri.fsPath.startsWith(element.sourceUri.fsPath)) {
-                    const filePath = uri.fsPath.substr(element.sourceUri.fsPath.length + 1);
+                if (uri.path.startsWith(element.sourceUri.path)) {
+                    const filePath = uri.path.substr(element.sourceUri.path.length + 1);
                     resolve( element.getText(filePath) );
                 }
             });
@@ -117,8 +119,8 @@ export class ZipTreeDataProvider implements TreeDataProvider<IZipNode>, TextDocu
         const type = this.getType(element);
 
         return {
-            dark: path.join(__filename, '..', '..', '..', 'resources', 'dark', type + '.svg'),
-            light: path.join(__filename, '..', '..', '..', 'resources', 'light', type + '.svg')
+            dark: joinPath(__filename, '..', '..', '..', 'resources', 'dark', type + '.svg'),
+            light: joinPath(__filename, '..', '..', '..', 'resources', 'light', type + '.svg')
         }
     }
 
