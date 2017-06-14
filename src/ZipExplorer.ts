@@ -119,8 +119,8 @@ export class ZipTreeDataProvider implements TreeDataProvider<IZipNode>, TextDocu
         const type = this.getType(element);
 
         return {
-            dark: joinPath(__filename, '..', '..', '..', 'resources', 'dark', type + '.svg'),
-            light: joinPath(__filename, '..', '..', '..', 'resources', 'light', type + '.svg')
+            dark: path.join(__filename, '..', '..', '..', 'resources', 'dark', type + '.svg'),
+            light: path.join(__filename, '..', '..', '..', 'resources', 'light', type + '.svg')
         }
     }
 
