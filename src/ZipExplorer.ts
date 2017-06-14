@@ -101,7 +101,7 @@ export class ZipTreeDataProvider implements TreeDataProvider<IZipNode>, TextDocu
                 command: 'openZipResource',
                 arguments: [element.sourceUri.with({
                     scheme: 'zip',
-                    path: path.join(element.sourceUri.path, element.parent, element.label)
+                    path: joinPath(element.sourceUri.path, element.parent, element.label)
                 })],
                 title: 'Open Zip Resource'
             }
