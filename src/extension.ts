@@ -1,22 +1,31 @@
 'use strict';
-import * as vscode from 'vscode';
+import {window, workspace, commands, Uri, ExtensionContext} from 'vscode';
+import * as path from 'path';
 import { ZipTreeDataProvider } from './ZipExplorer';
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
 
     const zipExplorerProvider = new ZipTreeDataProvider();
 
-    vscode.window.registerTreeDataProvider('zipExplorer', zipExplorerProvider);
-    vscode.workspace.registerTextDocumentContentProvider('zip', zipExplorerProvider);
+    window.registerTreeDataProvider('zipExplorer', zipExplorerProvider);
+    workspace.registerTextDocumentContentProvider('zip', zipExplorerProvider);
 
-    vscode.commands.registerCommand('zipexplorer.exploreZipFile', (uri: vscode.Uri) => {
+    commands.registerCommand('zipexplorer.extractFiles', (uri: Uri) => {
+        zipExplorerProvider.extractFiles(uri);
+    });
+
+    commands.registerCommand('zipexplorer.extractHere', (uri: Uri) => {
+        zipExplorerProvider.extractHere(uri);
+    });
+
+    commands.registerCommand('zipexplorer.exploreZipFile', (uri: Uri) => {
         zipExplorerProvider.openZip(uri);
     });
 
-    vscode.commands.registerCommand('openZipResource', (uri: vscode.Uri) => {
-        vscode.workspace.openTextDocument(uri).then(document => {
+    commands.registerCommand('openZipResource', (uri: Uri) => {
+        workspace.openTextDocument(uri).then(document => {
             if (document) {
-                vscode.window.showTextDocument(document);
+                window.showTextDocument(document);
             }
         });
     });

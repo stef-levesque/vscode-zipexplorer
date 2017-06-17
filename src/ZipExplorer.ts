@@ -1,6 +1,15 @@
-import { ExtensionContext, TreeDataProvider, EventEmitter, TreeItem, Event, window, TreeItemCollapsibleState, Uri, commands, workspace, TextDocumentContentProvider, CancellationToken, ProviderResult } from 'vscode';
-import * as path from 'path';
+import { 
+    ExtensionContext, TextDocumentContentProvider, 
+    EventEmitter, Event, InputBoxOptions,
+    TreeDataProvider, TreeItem, TreeItemCollapsibleState, 
+    window, workspace, Uri, commands, 
+    CancellationToken, ProviderResult,
+    ProgressLocation
+} from 'vscode';
+
 import * as AdmZip from 'adm-zip';
+import * as mkdirp from 'mkdirp';
+import * as path from 'path';
 import { IZipNode, treeFromPaths} from './ZipNode';
 
 const joinPath = require('path.join');
@@ -49,7 +58,6 @@ export class ZipRoot implements IZipNode {
     }
 }
 
-
 export class ZipModel {
     private _zipRoots: ZipRoot[];
 
@@ -59,6 +67,29 @@ export class ZipModel {
 
     public openZip(fileUri: Uri) {
         this._zipRoots.push(new ZipRoot(fileUri));
+    }
+
+    public extractFiles(fileUri: Uri, folderUri: Uri): void {
+        const zip = new AdmZip(fileUri.fsPath);
+        mkdirp.sync(folderUri.fsPath);
+        zip.extractAllTo(folderUri.fsPath);
+        window.showInformationMessage('Extraction done!');
+    }
+
+    public extractFilesAsync(fileUri: Uri, folderUri: Uri, index: number = 38) {
+        return new Promise<void>((resolve, reject) => {
+            const zip = new AdmZip(fileUri.fsPath);
+            mkdirp.sync(folderUri.fsPath);
+            zip.extractAllToAsync(folderUri.fsPath, false, async (error) => {
+                if (error) {
+                    window.showErrorMessage(error.toString());
+                    reject(error);
+                } else {
+                    window.showInformationMessage('Extraction done!');
+                    resolve();
+                }
+            });
+        });
     }
 
     public get roots() {
@@ -92,6 +123,35 @@ export class ZipTreeDataProvider implements TreeDataProvider<IZipNode>, TextDocu
         this._onDidChangeTreeData.fire();
     }
 
+    public extractFiles(fileUri: Uri) {
+        let folderUri = Uri.file(path.dirname(fileUri.fsPath));
+
+        var ibo = <InputBoxOptions>{
+            prompt: "Export to binary file",
+            placeHolder: "file path",
+            value: folderUri.fsPath
+        }
+
+        window.showInputBox(ibo).then(folderPath => {
+            folderUri = Uri.file(folderPath);
+            window.withProgress({
+                location: ProgressLocation.Window,
+                title: 'extracting files to ' + folderUri.fsPath
+            }, () => {
+                return this.model.extractFilesAsync(fileUri, folderUri);
+            });
+        });
+    }
+
+    public extractHere(fileUri: Uri) {
+        const folderUri = Uri.file(path.dirname(fileUri.fsPath));
+        window.withProgress({
+            location: ProgressLocation.Window,
+            title: 'extracting files to ' + folderUri.fsPath
+        }, () => {
+            return this.model.extractFilesAsync(fileUri, folderUri);
+        });
+    }
 
     public getTreeItem(element: IZipNode): TreeItem {
         const isFile = this.getType(element) === 'file';

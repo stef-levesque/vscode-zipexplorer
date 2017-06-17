@@ -38,6 +38,14 @@
   "contributes": {
     "commands": [
       {
+        "command": "zipexplorer.extractFiles",
+        "title": "Extract Files ..."
+      },
+      {
+        "command": "zipexplorer.extractHere",
+        "title": "Extract Here"
+      },
+      {
         "command": "zipexplorer.exploreZipFile",
         "title": "Explore Zip File"
       },
@@ -61,9 +69,19 @@
     "menus": {
       "explorer/context": [
         {
+          "command": "zipexplorer.extractFiles",
+          "when": "resourceLangId == zip",
+          "group": "0_zip@1"
+        },
+        {
+          "command": "zipexplorer.extractHere",
+          "when": "resourceLangId == zip",
+          "group": "0_zip@2"
+        },
+        {
           "command": "zipexplorer.exploreZipFile",
           "when": "resourceLangId == zip",
-          "group": "0_zip"
+          "group": "0_zip@3"
         }
       ]
     },
@@ -83,6 +101,7 @@
   },
   "devDependencies": {
     "@types/adm-zip": "^0.4.31",
+    "@types/mkdirp": "^0.3.29",
     "@types/node": "^6.0.40",
     "typescript": "^2.3.4",
     "vscode": "^1.1.0"
@@ -90,6 +109,7 @@
   "dependencies": {
     "adm-zip": "^0.4.7",
     "lodash.groupby": "^4.6.0",
+    "mkdirp": "^0.5.1",
     "path.join": "^1.0.0"
   }
 }
