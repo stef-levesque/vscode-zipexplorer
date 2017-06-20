@@ -2,7 +2,7 @@
   "name": "vscode-zipexplorer",
   "displayName": "Zip File Explorer",
   "description": "Display the content of a Zip file in a Tree Explorer",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "slevesque",
   "license": "LICENSE.md",
   "engines": {
@@ -44,6 +44,10 @@
       {
         "command": "zipexplorer.extractHere",
         "title": "Extract Here"
+      },
+      {
+        "command": "zipexplorer.extractElement",
+        "title": "Extract Element ..."
       },
       {
         "command": "zipexplorer.exploreZipFile",
@@ -92,6 +96,16 @@
         {
           "command": "zipexplorer.clear",
           "when": "view == zipExplorer"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "zipexplorer.extractElement",
+          "when": "view == zipExplorer && viewItem != zip"
+        },
+        {
+          "command": "zipexplorer.extractFiles",
+          "when": "view == zipExplorer && viewItem == zip"
         }
       ]
     },
