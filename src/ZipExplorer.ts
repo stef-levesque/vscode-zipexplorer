@@ -115,11 +115,17 @@ export class ZipTreeDataProvider implements TreeDataProvider<IZipNode>, TextDocu
     private model: ZipModel;
 
     constructor() {
-        this.model = new ZipModel();
+        this.clear();
     }
 
     public openZip(fileUri: Uri) {
         this.model.openZip(fileUri);
+        this._onDidChangeTreeData.fire();
+    }
+
+    public clear() {
+        this.model = null;
+        this.model = new ZipModel();
         this._onDidChangeTreeData.fire();
     }
 

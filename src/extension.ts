@@ -22,6 +22,10 @@ export function activate(context: ExtensionContext) {
         zipExplorerProvider.openZip(uri);
     });
 
+    commands.registerCommand('zipexplorer.clear', () => {
+        zipExplorerProvider.clear();
+    });
+
     commands.registerCommand('openZipResource', (uri: Uri) => {
         workspace.openTextDocument(uri).then(document => {
             if (document) {
