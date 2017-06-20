@@ -42,6 +42,10 @@ export class ZipRoot implements IZipNode {
         });
     }
 
+    public extractTo(entryPath: string, targetPath) {
+        this._zip.extractEntryTo(entryPath, targetPath)
+    }
+
     public get sourceUri(): Uri {
         return this._uri;
     }
@@ -92,16 +96,36 @@ export class ZipModel {
         });
     }
 
+    public extractElement(element: IZipNode, folderUri: Uri) {
+        const uri = element.sourceUri;
+        this._zipRoots.forEach(zip => {
+            if (uri.path.startsWith(zip.sourceUri.path)) {
+                const filePath = joinPath(element.parent, element.label)
+                zip.extractTo(filePath, folderUri.fsPath);
+            }
+        });
+    }
+
+    public extractElementAsync(element: IZipNode, folderUri: Uri) {
+        return new Promise((resolve, reject) => {
+            setTimeout( () => {
+                this.extractElement(element, folderUri);
+                window.showInformationMessage('Extraction done!');
+                resolve()
+            }, 0);
+        });
+    }
+
     public get roots() {
         return this._zipRoots;
     }
 
     public getContent(uri: Uri): Thenable<string> {
         return new Promise((resolve, reject) => {
-            this._zipRoots.forEach(element => {
-                if (uri.path.startsWith(element.sourceUri.path)) {
-                    const filePath = uri.path.substr(element.sourceUri.path.length + 1);
-                    resolve( element.getText(filePath) );
+            this._zipRoots.forEach(zip => {
+                if (uri.path.startsWith(zip.sourceUri.path)) {
+                    const filePath = uri.path.substr(zip.sourceUri.path.length + 1);
+                    resolve(zip.getText(filePath) );
                 }
             });
         });
@@ -133,7 +157,7 @@ export class ZipTreeDataProvider implements TreeDataProvider<IZipNode>, TextDocu
         let folderUri = Uri.file(path.dirname(fileUri.fsPath));
 
         var ibo = <InputBoxOptions>{
-            prompt: "Export to binary file",
+            prompt: "Extract to",
             placeHolder: "file path",
             value: folderUri.fsPath
         }
@@ -156,6 +180,30 @@ export class ZipTreeDataProvider implements TreeDataProvider<IZipNode>, TextDocu
             title: 'extracting files to ' + folderUri.fsPath
         }, () => {
             return this.model.extractFilesAsync(fileUri, folderUri);
+        });
+    }
+
+    public extractZip(element: IZipNode) {
+        this.extractFiles(element.sourceUri);
+    }
+
+    public extractElement(element: IZipNode) {
+        let folderUri = Uri.file(path.dirname(element.sourceUri.fsPath));
+
+        var ibo = <InputBoxOptions>{
+            prompt: "Extract to",
+            placeHolder: "file path",
+            value: folderUri.fsPath
+        }
+
+        window.showInputBox(ibo).then(folderPath => {
+            folderUri = Uri.file(folderPath);
+            window.withProgress({
+                location: ProgressLocation.Window,
+                title: 'extracting to ' + folderUri.fsPath
+            }, () => {
+                return this.model.extractElementAsync(element, folderUri);
+            });
         });
     }
 

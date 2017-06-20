@@ -18,6 +18,14 @@ export function activate(context: ExtensionContext) {
         zipExplorerProvider.extractHere(uri);
     });
 
+    commands.registerCommand('zipexplorer.extractZip', (element) => {
+        zipExplorerProvider.extractZip(element);
+    });
+
+    commands.registerCommand('zipexplorer.extractElement', (element) => {
+        zipExplorerProvider.extractElement(element);
+    });
+
     commands.registerCommand('zipexplorer.exploreZipFile', (uri: Uri) => {
         zipExplorerProvider.openZip(uri);
     });
