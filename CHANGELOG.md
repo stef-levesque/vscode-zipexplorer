@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.3.0] - 2018-03-02
+
+- Contents alphabetical sorting
+
 ## [0.2.0] - 2017-06-20
 
 - Extract functionalities

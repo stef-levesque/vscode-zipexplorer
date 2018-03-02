@@ -22,9 +22,11 @@ export class ZipRoot implements IZipNode {
         try {
             this._zip = new AdmZip(this._uri.fsPath);
             let files = [];
-            this._zip.getEntries().forEach(e => {
-                files.push(e.entryName);
-            });
+            this._zip.getEntries()
+                .sort((a,b) => a.entryName.localeCompare(b.entryName))
+                .forEach(e => {
+                    files.push(e.entryName);
+                });
             this._tree = treeFromPaths(files, _uri, 
                 path.basename(this._uri.fsPath))
         } catch (e) {
