@@ -19,6 +19,7 @@
   "keywords": [
     "vscode",
     "zip",
+    "epub",
     "explorer",
     "viewer"
   ],
@@ -70,7 +71,8 @@
           "ZIP"
         ],
         "extensions": [
-          ".zip"
+          ".zip",
+          ".epub"
         ]
       }
     ],
