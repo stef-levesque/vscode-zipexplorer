@@ -125,7 +125,7 @@ export class ZipModel {
     public getContent(uri: Uri): Thenable<string> {
         return new Promise((resolve, reject) => {
             this._zipRoots.forEach(zip => {
-                if (uri.path.startsWith(zip.sourceUri.path)) {
+                if (uri.fsPath.startsWith(zip.sourceUri.fsPath)) {
                     const filePath = uri.path.substr(zip.sourceUri.path.length + 1);
                     resolve(zip.getText(filePath) );
                 }

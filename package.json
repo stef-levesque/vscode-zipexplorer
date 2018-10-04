@@ -70,7 +70,8 @@
           "ZIP"
         ],
         "extensions": [
-          ".zip"
+          ".zip",
+          ".jar"
         ]
       }
     ],
