@@ -1,6 +1,6 @@
 # Zip Explorer
 
-Display the content of a Zip/EPUB/LPF file in a Tree Explorer
+Display the content of a Zip/JAR/EPUB/LPF file in a Tree Explorer
 
 ## Install
 
@@ -35,7 +35,7 @@ from the root of the directory. This will package your extension into a `.vsix` 
 ### Explore
 ![screenshot](images/screenshot.png)
 
-1. Right-click on a file with a `.zip`, `.epub`, or `.lpf` extension and select `Explore Zip File`
+1. Right-click on a file with a `.zip`, `jar`, `.epub`, or `.lpf` extension and select `Explore Zip File`
 2. Browse the content of the Zip file in the `Zip Explorer` section
 3. Click on a file node to display its content
 
