@@ -2,7 +2,7 @@
   "name": "vscode-zipexplorer",
   "displayName": "Zip File Explorer",
   "description": "Display the content of a Zip file in a Tree Explorer",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "publisher": "slevesque",
   "license": "LICENSE.md",
   "engines": {
@@ -19,7 +19,9 @@
   "keywords": [
     "vscode",
     "zip",
+    "epub",
     "explorer",
+    "lpf",
     "viewer"
   ],
   "bugs": {
@@ -70,7 +72,9 @@
           "ZIP"
         ],
         "extensions": [
-          ".zip"
+          ".zip",
+          ".epub",
+          ".lpf"
         ]
       }
     ],
