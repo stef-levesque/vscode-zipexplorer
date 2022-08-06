@@ -2,7 +2,7 @@
   "name": "vscode-zipexplorer",
   "displayName": "Zip File Explorer",
   "description": "Display the content of a Zip file in a Tree Explorer",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "publisher": "slevesque",
   "license": "LICENSE.md",
   "engines": {
@@ -71,7 +71,9 @@
         ],
         "extensions": [
           ".zip",
-          ".jar"
+          ".jar",
+          ".war",
+          ".ear"
         ]
       }
     ],
@@ -127,8 +129,9 @@
   "devDependencies": {
     "@types/adm-zip": "^0.4.31",
     "@types/mkdirp": "^0.3.29",
-    "@types/node": "^6.0.40",
-    "typescript": "^2.3.4",
+    "@types/node": "^18.6.4",
+    "typescript": "^4.7.4",
+    "vsce": "^2.10.0",
     "vscode": "^1.1.0"
   },
   "dependencies": {

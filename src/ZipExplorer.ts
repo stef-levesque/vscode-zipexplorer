@@ -109,11 +109,11 @@ export class ZipModel {
     }
 
     public extractElementAsync(element: IZipNode, folderUri: Uri) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             setTimeout( () => {
                 this.extractElement(element, folderUri);
                 window.showInformationMessage('Extraction done!');
-                resolve()
+                resolve();
             }, 0);
         });
     }
