@@ -18,6 +18,17 @@ Display the content of a Zip file in a Tree Explorer
 2. Select `Extract Element`
 3. Specify the path where to extract
 
+### Other Files
+
+To have the `Explore Zip File` menu show up for other filetypes, you can associate those extensions with `zip` in your VSCode config json:
+```
+"files.associations": {
+  "*.egg": "zip",
+  "*.apk": "zip",
+  "*.your_extension": "zip"
+}
+```
+
 ## Requirements
 
 Visual Studio Code v1.13.0
