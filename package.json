@@ -133,7 +133,7 @@
     "@types/mkdirp": "^0.3.29",
     "@types/node": "^6.0.40",
     "typescript": "^2.3.4",
-    "vscode": "^1.1.0"
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
